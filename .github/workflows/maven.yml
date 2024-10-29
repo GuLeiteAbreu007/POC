@@ -20,13 +20,13 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Build with Maven
-      run: mvn -B package -DskipTests --file pom.xml
+      run: mvn -B package -DskipTests --file spring-petclinic-main/pom.xml
 
     - name: Deploy na EC2
       run: |
            echo "${{secrets.KEY_EC2_E}}" >private_key && chmod 400 private_key
            ssh -o StrictHostKeyChecking=no -i "private_key" ubuntu@ec2-52-202-204-70.compute-1.amazonaws.com "
-                     cd /home/ubuntu/springEasy-Render &&
+                     cd /home/ubuntu/spring-petclinic-main &&
                      git pull &&
                      mvn clean package -DskipTests &&
                      ./executar.sh "
